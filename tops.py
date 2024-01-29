@@ -15,13 +15,29 @@ def print_User_Top_Artists():
         artist_name = artist['name']
         print(f"{idx+1}: {artist_name}")
 
+def print_User_Top_Tracks():
+    tracks = sp.current_user_top_tracks(offset=0, time_range='short_term')
+    for idx, track in enumerate(tracks['items']):
+        track_name = track['name']
+        print(f"{idx+1}: {track_name}")
+
 def main():
-    print_User_Top_Artists()
+    Text = input("Would you like to see your top tracks or artists? (T or A): ")
+    Artists = "a"
+    Tracks = "t"
+    if Text.lower() == Tracks:
+        print_User_Top_Tracks()
+    elif  Text.lower() == Artists:
+        print_User_Top_Artists()
+    else:
+        print("Please enter a valid response.")
+        main()
+
 
 if __name__ == '__main__':
     scope_top = "user-top-read"
     sp = spotipy.Spotify(auth_manager=SpotifyOAuth(SPOTIPY_CLIENT_ID,
-                                               SPOTIPY_CLIENT_SECRET,
-                                               REDIRECT_URI,
-                                              scope=scope_top))
+                                                    SPOTIPY_CLIENT_SECRET,
+                                                    REDIRECT_URI,
+                                                    scope=scope_top))
     main()
